@@ -15,7 +15,7 @@ export default function SideBar (props) {
 
             <Catalog {...props} />
 
-            <Live2D />
+            {/* <Live2D />  删除这一行 */}
 
             <Announcement post={notice} />
 
