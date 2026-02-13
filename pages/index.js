@@ -8,6 +8,20 @@ import { DynamicLayout } from '@/themes/theme'
 import { generateRedirectJson } from '@/lib/redirect'
 
 /**
+ * 专门修复序列化错误：将对象中所有的 undefined 替换为 null
+ * 确保 getStaticProps 返回的数据是纯净的 JSON 格式
+ */
+function JSONSerializable(obj) {
+  try {
+    return JSON.parse(JSON.stringify(obj, (key, value) =>
+      typeof value === 'undefined' ? null : value
+    ))
+  } catch (e) {
+    return obj
+  }
+}
+
+/**
  * 首页布局
  * @param {*} props
  * @returns
@@ -30,6 +44,7 @@ export async function getStaticProps(req) {
     12,
     props?.NOTION_CONFIG
   )
+  
   props.posts = props.allPages?.filter(
     page => page.type === 'Post' && page.status === 'Published'
   )
@@ -55,22 +70,19 @@ export async function getStaticProps(req) {
     }
   }
 
-  // 生成robotTxt
+  // 生成相关文件
   generateRobotsTxt(props)
-  // 生成Feed订阅
   generateRss(props)
-  // 生成
   generateSitemapXml(props)
+  
   if (siteConfig('UUID_REDIRECT', false, props?.NOTION_CONFIG)) {
-    // 生成重定向 JSON
     generateRedirectJson(props)
   }
 
-  // 生成全文索引 - 仅在 yarn build 时执行 && process.env.npm_lifecycle_event === 'build'
-
   delete props.allPages
 
-  return {
+  // 【关键修复】：使用 JSONSerializable 包裹返回的 props 对象
+  return JSONSerializable({
     props,
     revalidate: process.env.EXPORT
       ? undefined
@@ -79,7 +91,7 @@ export async function getStaticProps(req) {
           BLOG.NEXT_REVALIDATE_SECOND,
           props.NOTION_CONFIG
         )
-  }
+  })
 }
 
 export default Index
