@@ -46,7 +46,7 @@ const Footer = ({ title }) => {
           <a
             href='https://github.com/tangly1024/NotionNext'
             className='underline '>
-            NotionNext {siteConfig('VERSION')}
+            BARU LOGISTIC {siteConfig('2026')}
           </a>
           .
         </span>
