@@ -11,7 +11,7 @@ export default function PoweredBy(props) {
       <a
         href='https://github.com/tangly1024/NotionNext'
         className='underline justify-start'>
-        NotionNext {siteConfig('VERSION')}
+        BARU LOGISTIC {siteConfig('2026')}
       </a>
       .
     </div>
