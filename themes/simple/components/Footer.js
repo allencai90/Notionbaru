@@ -37,7 +37,7 @@ export default function Footer(props) {
           <span className='no-underline ml-4'>
             Powered by
             <a
-              href='https://github.com/tangly1024/NotionNext'
+              href='https://uslogs.com'
               className=' hover:underline'>
               BARU LOGISTIC {siteConfig('2026')}
             </a>
